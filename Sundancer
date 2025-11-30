@@ -82,6 +82,12 @@ SUNDANCE_DSC_PATCHES = {
     0xE39EA4A: bytes.fromhex("439b458669a3fd901a655985694e3f57c258a24a")
 }
 
+SUNDANCE_LAUNCH_DAEMONS_TO_UNLIMIT = [
+    "/System/Library/LaunchDaemons/com.apple.absinthed.N88.plist",
+    "/System/Library/LaunchDaemons/com.apple.fairplayd.N88.plist",
+    "/System/Library/LaunchDaemons/com.apple.securekeyvaultd.N88.plist"
+]
+
 SUNDANCE_RAMDISK_IV = "404e344acc3ab148a3d90997f00aa308"
 SUNDANCE_RAMDISK_KEY = "96bbec672f7c5533250f4fa14798647031b5913843d00d8a4c9b6ebec0664f55"
 
@@ -428,6 +434,22 @@ def hoodoo_process_iboots(wd: Path, ipsw: IPSW, build_identity: BuildIdentity) -
 
     return result
 
+def _unlimit_launch_daemon(wd: Path, dmg_path: Path, launch_daemon: str):
+    log("unlimiting %s LaunchDaemon" % os.path.basename(launch_daemon))
+
+    plist_tmp_path = wd / "launch_daemon.plist"
+    hfsplus_extract(dmg_path, launch_daemon, plist_tmp_path)
+
+    with open(plist_tmp_path, "rb") as f:
+        plist = plistlib.load(f)
+        del plist["LimitLoadToHardware"]
+
+    with open(plist_tmp_path, "wb") as f:
+        plistlib.dump(plist, f, fmt=plistlib.FMT_XML)
+
+    hfsplus_replace(dmg_path, plist_tmp_path, launch_daemon)
+    plist_tmp_path.unlink()
+
 def sundance_process_root_filesystem(wd: Path, ipsw: IPSW, build_identity: BuildIdentity, to_add: "list[AddFile]") -> str:
     log("extracting iOS 6 root filesystem")
 
@@ -448,19 +470,8 @@ def sundance_process_root_filesystem(wd: Path, ipsw: IPSW, build_identity: Build
     hfsplus_replace(os_raw_path, dsc_tmp_path, "/System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv7", mode=0o755)
     dsc_tmp_path.unlink()
 
-    log("patching FairPlay LaunchDaemon")
-    fairplay_plist_tmp_path = wd / "fairplay.plist"
-    hfsplus_extract(os_raw_path, "/System/Library/LaunchDaemons/com.apple.fairplayd.N88.plist", fairplay_plist_tmp_path)
-
-    with open(fairplay_plist_tmp_path, "rb") as f:
-        plist = plistlib.load(f)
-        del plist["LimitLoadToHardware"]
-
-    with open(fairplay_plist_tmp_path, "wb") as f:
-        plistlib.dump(plist, f, fmt=plistlib.FMT_XML)
-
-    hfsplus_replace(os_raw_path, fairplay_plist_tmp_path, "/System/Library/LaunchDaemons/com.apple.fairplayd.N88.plist")
-    fairplay_plist_tmp_path.unlink()
+    for ld in SUNDANCE_LAUNCH_DAEMONS_TO_UNLIMIT:
+        _unlimit_launch_daemon(wd, os_raw_path, ld)
 
     # `hfsplus` messes up if we create already existing folders/files,
     # `hfsplus` messes up if add files to non-existing folders,
