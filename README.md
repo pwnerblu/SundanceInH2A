@@ -15,6 +15,9 @@ This repository contains tools and instructions to *convert* iPhone 3GS iOS 6.0 
 ## Changelog
 <details>
 
+### rev2b
+* Fixed the bug when unclean shutdown (such as via hard reset) would break the untether
+
 ### rev2a
 * Fixed Wi-Fi on **CH**-region iPods by disabling WAPI
 
