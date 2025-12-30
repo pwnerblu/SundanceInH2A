@@ -118,6 +118,10 @@
                     {
                         "embedded" : "8784ae8d7066b0f0136be91dcfe632a436ffd6fb.deepsleep.script",
                         "dest" : "/private/etc/bluetool/8784ae8d7066b0f0136be91dcfe632a436ffd6fb.deepsleep.script"
+                    },
+                    {
+                        "embedded" : "lockScreenOverlayiPod~6xx.png",
+                        "dest" : "/System/Library/PreferenceBundles/Wallpaper.bundle/lockScreenOverlayiPod.png"
                     }
                 ]
             },

@@ -259,7 +259,7 @@ class BuildIdentity:
         # bold of me to assume this is ever going to be used for dev boards, but...
         elif self.device.endswith("dev"):
             return self.device[:-3]
-        
+
         raise RuntimeError("device class is neither AP nor DEV?!")
 
 class BuildManifest:
@@ -292,7 +292,7 @@ class IPSW:
 
     def read_file(self, path: str) -> bytes:
         return self._zip.read(path)
-    
+
     def extract_file(self, src: str, dest: str):
         with self._zip.open(src, "r") as zf:
             with open(dest, "wb") as f:
