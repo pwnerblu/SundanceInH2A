@@ -100,6 +100,9 @@ class DTNode:
     def add_child(self, data: bytes):
         self.children.append(DTNode.decode(data))
 
+    def remove_prop(self, prop: str):
+        self.props.remove(self.find_prop(prop))
+
     def encode(self) -> bytes:
         res = bytearray()
 
@@ -201,8 +204,9 @@ def do_diff(args):
             
             if two_prop.name != "AAPL,phandle" and not two_prop.name.startswith("function-") and not two_prop.name.endswith("-parent"):
                 if two_prop.data != one_prop.data:
-                    print("PROP MODIFIED - %s => %s @ %s" % (one_prop.name, two_prop.data.hex(), path))
-                    continue
+                    differences.append(
+                        "PROP SET %s %s %s" % (two_prop.name, one_prop.data.hex(), path)
+                    )
 
         for two_prop in two_node.props:
             try:
@@ -261,6 +265,13 @@ def do_apply(args):
                     continue
 
                 prop.data = data
+
+            elif act == "REMOVE":
+                name = expr[2]
+                path = expr[3]
+
+                node = dt.find_node(path)
+                node.remove_prop(name)
 
             else:
                 raise ValueError("unknown action for PROP - %s" % act)

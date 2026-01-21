@@ -5,3 +5,4 @@ __pycache__
 /exploit/build
 /restore_*.log
 /artifacts/kernelcache*
+/resources/IMGSGX535GLDriver-*
