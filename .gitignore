@@ -6,3 +6,4 @@ __pycache__
 /restore_*.log
 /artifacts/kernelcache*
 /resources/IMGSGX535GLDriver-*
+/sundance_rsrc.tar.xz
