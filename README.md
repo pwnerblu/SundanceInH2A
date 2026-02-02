@@ -2,7 +2,7 @@
 
 Run iOS 6 on your iPod touch 3 & iPad 1!
 
-This is a fork of SundanceInH2A that allows 6.1 to be ran on the iPad 1 alongside 6.1.3.
+This is a fork of SundanceInH2A that allows 6.1-6.1.2 to be ran on the iPad 1 alongside 6.1.3.
 
 Apple never released iOS 6 for iPod touch 3rd-generation (2009) and the original iPad (2010). 13 years later I decided to fix it
 
@@ -22,7 +22,7 @@ This repository contains tools and instructions to *convert* original iOS 6 firm
 
 ### rev4
 * iPad 1 support
-    * Only iOS 6.1.3 and 6.1 is supported as of now
+    * Only iOS 6.1.x is supported as of now
     * Cellular variant has the baseband disabled and is automatically hactivated
 
 * External resources are now shipped slightly differently, please re-read the tutorial
@@ -95,7 +95,8 @@ This repository contains tools and instructions to *convert* original iOS 6 firm
     
     * iPad 1 uses iPad 2 (`iPad2,1`) firmware:
         1. [6.1 (10B141)](https://secure-appldnld.apple.com/iOS6.1/041-6476.20130128.Hrb56/iPad2,1_6.1_10B141_Restore.ipsw)
-        2. [6.1.3 (10B329)](https://secure-appldnld.apple.com/iOS6.1/091-2397.20130319.EEae9/iPad2,1_6.1.3_10B329_Restore.ipsw)
+        2. [6.1.2 (10B146)](https://secure-appldnld.apple.com/iOS6.1/091-0714.20130215.Mpsr2/iPad2,1_6.1.2_10B146_Restore.ipsw)
+        3. [6.1.3 (10B329)](https://secure-appldnld.apple.com/iOS6.1/091-2397.20130319.EEae9/iPad2,1_6.1.3_10B329_Restore.ipsw)
 
 * Resources that I cannot put straight into this repository - customly assembled kernelcaches & userspace libraries
     * I *heard* that executing this command will yield them:
